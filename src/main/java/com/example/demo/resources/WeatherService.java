@@ -1,6 +1,7 @@
 package com.example.demo.resources;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 
@@ -59,8 +60,8 @@ public class WeatherService {
             e.printStackTrace();
         }
 		
-		
-		return ResponseEntity.ok().body(jsonString);	
+		return ResponseEntity.ok().body(jsonString);
+        
 	}
 
 	
