@@ -2,6 +2,7 @@ package com.example.demo.resources.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.UnexpectedTypeException;
+import javax.validation.ValidationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +67,17 @@ public class ResourceExceptionHandler {
 				
 	}
 	
+	
+	@ExceptionHandler(ValidationException.class)
+	public ResponseEntity<StandardError> validationException(ValidationException e, HttpServletRequest request) {
+		
+		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+				
+	}
+	
+
 	
 	
 	//todo: catch exception - InvalidDataAccessApiUsageException

@@ -2,12 +2,14 @@ package com.example.demo.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.example.demo.services.validation.ClienteInsert;
+
+@ClienteInsert()
 public class ClienteNewDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -22,7 +24,7 @@ public class ClienteNewDTO implements Serializable {
 	@NotEmpty(message="Cpf ou cnpj de Preenchimento obrigatório")
 	private String cpfOuCnpj;
 	
-    @Min(value=1, message="Tipo deve estar cadastrada")  
+    //@Min(value=1, message="Tipo deve estar cadastrada")  
 	private Integer tipo;
 	
 	@NotEmpty(message="Telefone de Preenchimento obrigatório")
@@ -39,7 +41,6 @@ public class ClienteNewDTO implements Serializable {
 	
 	private String complemento;
 	
-	@NotEmpty(message="Bairro de Preenchimento obrigatório")
 	private String bairro;
 	
 	@NotEmpty(message="Cep de Preenchimento obrigatório")
