@@ -1,6 +1,7 @@
 package com.example.demo.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sun.el.lang.ELArithmetic.BigDecimalDelegate;
 
 @Entity
 public class Pedido implements Serializable {
@@ -50,6 +52,14 @@ public class Pedido implements Serializable {
 		this.setInstante(instante);
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+	
+	public BigDecimal getValorTotal() {
+		BigDecimal soma = new BigDecimal(0.00);
+		for (ItemPedido ip : itens) {
+			soma = soma.add(ip.getSubtoTotal());
+		}
+		return soma;
 	}
 	
 	public Pagamento getPagamento() {
