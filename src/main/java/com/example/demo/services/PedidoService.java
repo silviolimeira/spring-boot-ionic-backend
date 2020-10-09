@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.ItemPedido;
 import com.example.demo.domain.PagamentoComBoleto;
@@ -28,6 +29,10 @@ public class PedidoService {
 	@Autowired
 	private BoletoService boletoService;
 	@Autowired
+	private ClienteService clienteService;
+	@Autowired
+	private ProdutoService produtoService;
+	@Autowired
 	private PagamentoRepository repoPagamento;
 	@Autowired
 	private ProdutoRepository repoProduto;
@@ -40,9 +45,11 @@ public class PedidoService {
 				Pedido.class.getName() + " - Não encontrado! Id: " + id + " Tipo: " + Pedido.class.getName()));
 	}
 
+	@Transactional
 	public @Valid Pedido insert(@Valid Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
+		obj.setCliente(clienteService.find(obj.getCliente().getId()));
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		if (obj.getPagamento() instanceof PagamentoComBoleto) {
@@ -54,7 +61,7 @@ public class PedidoService {
 		
 		for (ItemPedido ip : obj.getItens()) {
 			ip.setDesconto(0.0);
-			Produto prod = repoProduto.findById(ip.getProduto().getId()).orElse(null);
+			Produto prod = produtoService.find(ip.getProduto().getId());
 			ip.setPreco(prod.getPreco());
 			ip.setPedido(obj);
 		}
