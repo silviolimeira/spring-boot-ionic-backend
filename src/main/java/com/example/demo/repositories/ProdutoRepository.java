@@ -1,6 +1,7 @@
 package com.example.demo.repositories;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,5 +21,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
 	@Transactional(readOnly=true)
 	Page<Produto> findDistinctByNomeContainingAndCategoriasIn(String nome, List<Categoria>categorias, Pageable pageRequest);
+
 	
 }

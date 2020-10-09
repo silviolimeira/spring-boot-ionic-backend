@@ -8,8 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.Categoria;
+import com.example.demo.domain.Cliente;
 import com.example.demo.domain.Produto;
 import com.example.demo.repositories.CategoriaRepository;
 import com.example.demo.repositories.ProdutoRepository;
@@ -37,5 +39,12 @@ public class ProdutoService {
 		//return repo.search(nome, categorias, pageRequest);
 		return repo.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);
 		
+	}
+	
+	@Transactional
+	public Produto insert(Produto obj) {
+		obj.setId(null);
+		obj = repo.save(obj);
+		return obj;
 	}
 }
